@@ -7,26 +7,41 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class MineSweeper {
 
-    private int bombs;
+    private final String[][] field = new String[9][9];
+
     public void generateField() {
+
+        initializeField();
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("How many mines do you want on the field?");
-        bombs = Integer.parseInt(scanner.nextLine());
-        for (int i = 0; i < 9; i++) {
-            generateRow();
+        int bombs = Integer.parseInt(scanner.nextLine());
+        generateBombs(bombs);
+        printField();
+    }
+
+    private void printField() {
+        for (String[] strings : field) {
+            for (int j = 0; j < field.length; j++) {
+                System.out.print(strings[j]);
+            }
+            System.out.println();
         }
     }
 
-    private void generateRow() {
-        StringBuilder row = new StringBuilder(".........");
-        Set<Integer> bombIndexes = new HashSet<>();
-        long numberOfBombs = Math.min(Math.abs(bombs * ThreadLocalRandom.current().nextInt() % 9), bombs);
-        bombs -= numberOfBombs;
-        while (bombIndexes.size() != numberOfBombs) {
-            bombIndexes.add(Math.abs(ThreadLocalRandom.current().nextInt() % 9));
+    private void initializeField() {
+        for (int i = 0; i < field.length; i++) {
+            for (int j = 0; j < field.length; j++) {
+                field[i][j] = ".";
+            }
         }
+    }
 
-        bombIndexes.forEach(integer -> row.setCharAt(integer, 'X'));
-        System.out.println(row.toString());
+    private void generateBombs(int bombs) {
+        Set<Integer> bombIndexes = new HashSet<>();
+        while (bombIndexes.size() != bombs) {
+            bombIndexes.add(Math.abs(ThreadLocalRandom.current().nextInt() % 81));
+        }
+        bombIndexes.forEach(integer -> field[integer / 9][integer % 9] = "X");
     }
 }
