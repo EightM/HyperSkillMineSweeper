@@ -26,9 +26,31 @@ public class MineSweeper {
             for (int j = 0; j < field.length; j++) {
                 if (isTheMiddleCell(i, j)) {
                     checkMiddleCell(i, j);
+                } else if (isTheCornerCell(i, j)) {
+                    checkCornerCell(i, j);
                 }
             }
         }
+    }
+
+    private void checkCornerCell(int i, int j) {
+
+        if (field[i][j].equals("X")) {
+            return;
+        }
+
+        int startRow = i;
+        int startColumn = j;
+        if (i == 0 && j == 8) {
+            startColumn--;
+        } else if (i == 8 && j == 0) {
+            startRow--;
+        } else if (i == 8 && j == 8) {
+            startRow--;
+            startColumn--;
+        }
+
+        checkField(i, j, startRow, startColumn, 1);
     }
 
     private void checkMiddleCell(int i, int j) {
@@ -40,8 +62,13 @@ public class MineSweeper {
         int count = 0;
         int startRow = i - 1;
         int startColumn = j - 1;
-        for (int k = startRow; k <= startRow + 2; k++) {
-            for (int l = startColumn; l <= startColumn + 2; l++) {
+        checkField(i, j, startRow, startColumn, 2);
+    }
+
+    private void checkField(int i, int j, int startRow, int startColumn, int offset) {
+        int count = 0;
+        for (int k = startRow; k <= startRow + offset; k++) {
+            for (int l = startColumn; l < startColumn + offset; l++) {
                 if (k == i && l == j) {
                     continue;
                 }
@@ -54,6 +81,12 @@ public class MineSweeper {
         if (count > 0) {
             field[i][j] = String.valueOf(count);
         }
+    }
+
+    private boolean isTheCornerCell(int i, int j) {
+        return (i == 0 && j == 0) || (i == 8 && j == 0)
+                || (i == 0 && j == 8)
+                || (i == 8 && j == 8);
     }
 
     private boolean isTheMiddleCell(int i, int j) {
