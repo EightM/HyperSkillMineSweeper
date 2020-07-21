@@ -33,43 +33,42 @@ public class MineSweeper {
         }
     }
 
-    private void checkCornerCell(int i, int j) {
+    private void checkCornerCell(int originRow, int originColumn) {
 
-        if (field[i][j].equals("X")) {
+        if (field[originRow][originColumn].equals("X")) {
             return;
         }
 
-        int startRow = i;
-        int startColumn = j;
-        if (i == 0 && j == 8) {
+        int startRow = originRow;
+        int startColumn = originColumn;
+        if (originRow == 0 && originColumn == 8) {
             startColumn--;
-        } else if (i == 8 && j == 0) {
+        } else if (originRow == 8 && originColumn == 0) {
             startRow--;
-        } else if (i == 8 && j == 8) {
+        } else if (originRow == 8 && originColumn == 8) {
             startRow--;
             startColumn--;
         }
 
-        checkField(i, j, startRow, startColumn, 1);
+        checkField(originRow, originColumn, startRow, startColumn, 1);
     }
 
-    private void checkMiddleCell(int i, int j) {
+    private void checkMiddleCell(int originRow, int originColumn) {
 
-        if (field[i][j].equals("X")) {
+        if (field[originRow][originColumn].equals("X")) {
             return;
         }
 
-        int count = 0;
-        int startRow = i - 1;
-        int startColumn = j - 1;
-        checkField(i, j, startRow, startColumn, 2);
+        int startRow = originRow - 1;
+        int startColumn = originColumn - 1;
+        checkField(originRow, originColumn, startRow, startColumn, 2);
     }
 
-    private void checkField(int i, int j, int startRow, int startColumn, int offset) {
+    private void checkField(int originRow, int originColumn, int startRow, int startColumn, int offset) {
         int count = 0;
         for (int k = startRow; k <= startRow + offset; k++) {
             for (int l = startColumn; l < startColumn + offset; l++) {
-                if (k == i && l == j) {
+                if (k == originRow && l == originColumn) {
                     continue;
                 }
                 if (field[k][l].equals("X")) {
@@ -79,7 +78,7 @@ public class MineSweeper {
         }
 
         if (count > 0) {
-            field[i][j] = String.valueOf(count);
+            field[originRow][originColumn] = String.valueOf(count);
         }
     }
 
