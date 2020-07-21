@@ -17,7 +17,47 @@ public class MineSweeper {
         System.out.println("How many mines do you want on the field?");
         int bombs = Integer.parseInt(scanner.nextLine());
         generateBombs(bombs);
+        fillTheNumbers();
         printField();
+    }
+
+    private void fillTheNumbers() {
+        for (int i = 0; i < field.length; i++) {
+            for (int j = 0; j < field.length; j++) {
+                if (isTheMiddleCell(i, j)) {
+                    checkMiddleCell(i, j);
+                }
+            }
+        }
+    }
+
+    private void checkMiddleCell(int i, int j) {
+
+        if (field[i][j].equals("X")) {
+            return;
+        }
+
+        int count = 0;
+        int startRow = i - 1;
+        int startColumn = j - 1;
+        for (int k = startRow; k <= startRow + 2; k++) {
+            for (int l = startColumn; l <= startColumn + 2; l++) {
+                if (k == i && l == j) {
+                    continue;
+                }
+                if (field[k][l].equals("X")) {
+                    count++;
+                }
+            }
+        }
+
+        if (count > 0) {
+            field[i][j] = String.valueOf(count);
+        }
+    }
+
+    private boolean isTheMiddleCell(int i, int j) {
+        return (i > 0 && i < 8 && j > 0 && j < 8);
     }
 
     private void printField() {
