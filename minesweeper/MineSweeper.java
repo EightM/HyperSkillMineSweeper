@@ -28,9 +28,44 @@ public class MineSweeper {
                     checkMiddleCell(i, j);
                 } else if (isTheCornerCell(i, j)) {
                     checkCornerCell(i, j);
+                } else {
+                    checkBorderCell(i, j);
                 }
             }
         }
+    }
+
+    private void checkBorderCell(int originRow, int originColumn) {
+        if (field[originRow][originColumn].equals("X")) {
+            return;
+        }
+
+        int startRow = originRow;
+        int startColumn = originColumn;
+        int rowOffset = 0;
+        int columnOffset = 0;
+        if (originRow == 0) {
+            rowOffset = 1;
+            columnOffset = 2;
+            startColumn--;
+        } else if (originColumn == 0) {
+            rowOffset = 2;
+            columnOffset = 1;
+            startRow--;
+        } else if (originRow == 8) {
+            rowOffset = 1;
+            columnOffset = 2;
+            startRow--;
+            startColumn--;
+        } else if (originColumn == 8) {
+            rowOffset = 2;
+            columnOffset = 1;
+            startRow--;
+            startColumn--;
+        }
+
+        checkField(originRow, originColumn, startRow, startColumn, rowOffset, columnOffset);
+
     }
 
     private void checkCornerCell(int originRow, int originColumn) {
@@ -50,7 +85,7 @@ public class MineSweeper {
             startColumn--;
         }
 
-        checkField(originRow, originColumn, startRow, startColumn, 1);
+        checkField(originRow, originColumn, startRow, startColumn, 1, 1);
     }
 
     private void checkMiddleCell(int originRow, int originColumn) {
@@ -61,13 +96,13 @@ public class MineSweeper {
 
         int startRow = originRow - 1;
         int startColumn = originColumn - 1;
-        checkField(originRow, originColumn, startRow, startColumn, 2);
+        checkField(originRow, originColumn, startRow, startColumn, 2, 2);
     }
 
-    private void checkField(int originRow, int originColumn, int startRow, int startColumn, int offset) {
+    private void checkField(int originRow, int originColumn, int startRow, int startColumn, int rowOffset, int columnOffset) {
         int count = 0;
-        for (int k = startRow; k <= startRow + offset; k++) {
-            for (int l = startColumn; l < startColumn + offset; l++) {
+        for (int k = startRow; k <= startRow + rowOffset; k++) {
+            for (int l = startColumn; l <= startColumn + columnOffset; l++) {
                 if (k == originRow && l == originColumn) {
                     continue;
                 }
