@@ -173,21 +173,22 @@ public class MineSweeper {
             }
 
             setMark(x, y);
+            printField();
         }
         System.out.println("Congratulations! You have found all mines!");
     }
 
     private void setMark(int x, int y) {
-        if (field[x - 1][y - 1].equals("*")) {
-            field[x - 1][y - 1] = ".";
-            userMarks.remove((x - 1) * 9 + (y - 1));
+        if (field[y - 1][x - 1].equals("*")) {
+            field[y - 1][x - 1] = ".";
+            userMarks.remove((y - 1) * 9 + (x - 1));
         } else {
-            field[x - 1][y - 1] = "*";
-            userMarks.add((x - 1) * 9 + (y - 1));
+            field[y - 1][x - 1] = "*";
+            userMarks.add((y - 1) * 9 + (x - 1));
         }
     }
 
     private boolean isFieldWithNumber(int x, int y) {
-        return !field[x - 1][y - 1].equals(".");
+        return !field[y - 1][x - 1].equals(".");
     }
 }
