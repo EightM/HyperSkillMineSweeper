@@ -189,6 +189,6 @@ public class MineSweeper {
     }
 
     private boolean isFieldWithNumber(int x, int y) {
-        return !field[y - 1][x - 1].equals(".");
+        return !field[y - 1][x - 1].equals(".") && !field[y - 1][x - 1].equals("*");
     }
 }
