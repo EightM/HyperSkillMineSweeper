@@ -9,6 +9,7 @@ public class MineSweeper {
 
     private final String[][] field = new String[9][9];
     Set<Integer> bombIndexes = new HashSet<>();
+    Set<Integer> userMarks = new HashSet<>();
 
     public void generateField() {
 
@@ -156,5 +157,37 @@ public class MineSweeper {
             bombIndexes.add(Math.abs(ThreadLocalRandom.current().nextInt() % 81));
         }
         // bombIndexes.forEach(integer -> field[integer / 9][integer % 9] = "X");
+    }
+
+    public void startGame() {
+        Scanner scanner = new Scanner(System.in);
+        while (!userMarks.equals(bombIndexes)) {
+            System.out.println("Set/delete mines marks " +
+                    "(x and y coordinates):");
+            int x = scanner.nextInt();
+            int y = scanner.nextInt();
+
+            if (isFieldWithNumber(x, y)) {
+                System.out.println("There is a number here!");
+                continue;
+            }
+
+            setMark(x, y);
+        }
+        System.out.println("Congratulations! You have found all mines!");
+    }
+
+    private void setMark(int x, int y) {
+        if (field[x - 1][y - 1].equals("*")) {
+            field[x - 1][y - 1] = ".";
+            userMarks.remove((x - 1) * 9 + (y - 1));
+        } else {
+            field[x - 1][y - 1] = "*";
+            userMarks.add((x - 1) * 9 + (y - 1));
+        }
+    }
+
+    private boolean isFieldWithNumber(int x, int y) {
+        return !field[x - 1][y - 1].equals(".");
     }
 }
