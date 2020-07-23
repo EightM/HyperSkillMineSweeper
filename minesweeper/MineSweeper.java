@@ -128,12 +128,17 @@ public class MineSweeper {
     }
 
     private void printField() {
-        for (String[] strings : field) {
+        System.out.println(" |123456789|");
+        System.out.println("-|---------|");
+        for (int i = 0; i < field.length; i++) {
+            String[] strings = field[i];
+            System.out.print(i + 1 + "|");
             for (int j = 0; j < field.length; j++) {
                 System.out.print(strings[j]);
             }
-            System.out.println();
+            System.out.println("|");
         }
+        System.out.println("-|---------|");
     }
 
     private void initializeField() {
