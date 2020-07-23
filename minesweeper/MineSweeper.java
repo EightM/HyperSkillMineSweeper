@@ -8,6 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class MineSweeper {
 
     private final String[][] field = new String[9][9];
+    Set<Integer> bombIndexes = new HashSet<>();
 
     public void generateField() {
 
@@ -36,7 +37,8 @@ public class MineSweeper {
     }
 
     private void checkBorderCell(int originRow, int originColumn) {
-        if (field[originRow][originColumn].equals("X")) {
+
+        if (bombIndexes.contains(originRow * 9 + originColumn)) {
             return;
         }
 
@@ -70,7 +72,7 @@ public class MineSweeper {
 
     private void checkCornerCell(int originRow, int originColumn) {
 
-        if (field[originRow][originColumn].equals("X")) {
+        if (bombIndexes.contains(originRow * 9 + originColumn)) {
             return;
         }
 
@@ -90,7 +92,7 @@ public class MineSweeper {
 
     private void checkMiddleCell(int originRow, int originColumn) {
 
-        if (field[originRow][originColumn].equals("X")) {
+        if (bombIndexes.contains(originRow * 9 + originColumn)) {
             return;
         }
 
@@ -106,7 +108,7 @@ public class MineSweeper {
                 if (k == originRow && l == originColumn) {
                     continue;
                 }
-                if (field[k][l].equals("X")) {
+                if (bombIndexes.contains(k * 9 + l)) {
                     count++;
                 }
             }
@@ -150,10 +152,9 @@ public class MineSweeper {
     }
 
     private void generateBombs(int bombs) {
-        Set<Integer> bombIndexes = new HashSet<>();
         while (bombIndexes.size() != bombs) {
             bombIndexes.add(Math.abs(ThreadLocalRandom.current().nextInt() % 81));
         }
-        bombIndexes.forEach(integer -> field[integer / 9][integer % 9] = "X");
+        // bombIndexes.forEach(integer -> field[integer / 9][integer % 9] = "X");
     }
 }
